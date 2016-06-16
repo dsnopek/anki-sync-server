@@ -184,16 +184,17 @@ running from the command-line (on Linux)::
 Point the mobile apps at it
 ---------------------------
 
-At the moment, there isn't any way to get AnkiDroid or the Anki iOS
-app to point at your personal sync server. :-/
+As of AnkiDroid 2.6 the sync server can be changed in the settings:
 
-However, there are an issue open on AnkiDroid about it:
+ 1. Open the *Settings* screen from the menu
+ 2. In the *Advanced* section, tap on *Custom sync server*
+ 3. Check the *Use custom sync server* box
+ 4. Change the *Sync URL* and *Media sync URL* to the values described above
+ 5. The next sync should use the new sync server (if your previous username
+    or password does not match AnkiDroid will ask you to log in again)
 
-- `Option to sync with personal sync server · Issue #1057
-  <https://github.com/ankidroid/Anki-Android/issues/1057>`_
-
-If you're interested in seeing this feature, please go to this link
-and let the maintainers know!
+At the moment, there isn't any way to get the Anki iOS app to point at
+your personal sync server. 😕
 
 Running with Supervisor
 -----------------------
