@@ -171,6 +171,38 @@ Create a file like this in your Anki/addons folder called
 Be sure to change the SYNC_URL to point at your sync server. The
 address ``127.0.0.1`` refers to the local computer.
 
+If you are using TLS, add these lines to the configuration to verify
+the certificate against a custom certificate chain::
+
+  # Path to the certificate chain file, relative to the Anki/addons directory
+  CERTPATH = 'server.pem'
+  
+  # Override TLS certificate path
+  httpCon_anki = anki.sync.httpCon
+  def httpCon_patch():
+      import os.path
+      conn = httpCon_anki()
+  	conn.ca_certs = os.path.join(os.path.dirname(__file__), CERTPATH)
+  	return conn
+  anki.sync.httpCon = httpCon_patch
+
+The certificate chain must include all intermediate certificates and the
+root certificate. For the popular free
+`Let's encrypt <https://letsencrypt.org/>`_ CA, a sample certificate chain
+can be found
+`here <https://gist.github.com/alexander255/a15955932cf9880e77081501feea1345>`_.
+
+Alternatively you can try adding these lines, to disable certificate validation
+entirely::
+
+  # Override TLS certificate path
+  httpCon_anki = anki.sync.httpCon
+  def httpCon_patch():
+  	conn = httpCon_anki()
+  	conn.disable_ssl_certificate_validation = True
+  	return conn
+  anki.sync.httpCon = httpCon_patch
+
 Restart Anki for your plugin to take effect. Now, everytime you sync,
 it will be to your personal sync server rather than AnkiWeb.
 
@@ -184,16 +216,17 @@ running from the command-line (on Linux)::
 Point the mobile apps at it
 ---------------------------
 
-At the moment, there isn't any way to get AnkiDroid or the Anki iOS
-app to point at your personal sync server. :-/
+As of AnkiDroid 2.6 the sync server can be changed in the settings:
 
-However, there are an issue open on AnkiDroid about it:
+1. Open the *Settings* screen from the menu
+2. In the *Advanced* section, tap on *Custom sync server*
+3. Check the *Use custom sync server* box
+4. Change the *Sync URL* and *Media sync URL* to the values described above
+5. The next sync should use the new sync server (if your previous username
+   or password does not match AnkiDroid will ask you to log in again)
 
-- `Option to sync with personal sync server · Issue #1057
-  <https://github.com/ankidroid/Anki-Android/issues/1057>`_
-
-If you're interested in seeing this feature, please go to this link
-and let the maintainers know!
+At the moment, there isn't any way to get the Anki iOS app to point at
+your personal sync server. 😕
 
 Running with Supervisor
 -----------------------
@@ -270,6 +303,42 @@ conf::
 It may also be possible to use `mod_wsgi
 <http://code.google.com/p/modwsgi/>`_, however, I have no experience
 with that.
+
+Using with nginx
+----------------
+
+If you happen to use nginx, you can use the following configuration to
+proxy requests from nginx to your Anki Server::
+
+    server {
+        # Allow access via HTTP
+        listen 80;
+        listen [::]:80;
+        
+        # Allow access via HTTPS
+        listen 443 ssl spdy;
+        listen [::]:443 ssl spdy;
+        
+        # Set server names for access
+        server_name anki.server.name;
+        
+        # Set TLS certificates to use for HTTPS access
+        ssl_certificate     /path/to/fullchain.pem;
+        ssl_certificate_key /path/to/privkey.pem;
+        
+        location / {
+            # Prevent nginx from rejecting larger media files
+            client_max_body_size 0;
+            
+            proxy_pass http://anki:27701;
+            include proxy_params;
+        }
+    }
+
+AnkiDroid will not verify the TLS certificate, Anki Desktop will by
+default reject all but AnkiWeb's certificate, see the
+`Anki addon section <#point-the-anki-desktop-program-at-it>`_ for
+how to change this.
 
 How to get help
 ---------------
