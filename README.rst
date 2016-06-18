@@ -192,6 +192,18 @@ root certificate. For the popular free
 can be found
 `here <https://gist.github.com/alexander255/a15955932cf9880e77081501feea1345>`_.
 
+Unfortunately ``python-httplib2`` (used by Anki's sync client for issuing HTTP
+requests) does not support `SNI <https://en.wikipedia.org/wiki/Server_Name_Indication>`_
+for telling the web server during the TLS handshake which certificate to use.
+This will result in certificate validation errors if your Anki Server instance
+runs behind a web server that serves multiple domains using different
+certificates. This has `been fixed <https://github.com/httplib2/httplib2/pull/13>`_
+in the ``python-httplib2`` source code and will be part of the upcoming
+``0.9.3`` release. In the likely event that you are not using the latest version
+yet you will have to install the latest release from source using::
+
+  sudo pip install -e git+https://github.com/httplib2/httplib2.git#egg=httplib2
+
 Alternatively you can try adding these lines, to disable certificate validation
 entirely::
 
