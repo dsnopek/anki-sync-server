@@ -1,0 +1,7 @@
+language: python
+python:
+  - "2.7"
+before_script:
+  - ./generate-test-locale.sh anki-bundled/anki
+script:
+  - python setup.py test

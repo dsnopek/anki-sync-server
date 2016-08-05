@@ -30,7 +30,7 @@ setup(
     ],
     tests_require=[
         'nose>=1.3.0',
-        'mock>=1.0.0',
+        'mock>=1.0.0,<2.0.0a',
     ],
     data_files=get_anki_bundled_files()+[
         ('examples', [
