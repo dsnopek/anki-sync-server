@@ -356,9 +356,9 @@ How to get help
 ---------------
 
 If you're having any problems installing or using Anki Server, please
-post a message on our Google Group:
+create an issue on GitHub (or find an existing issue about your problem):
 
-https://groups.google.com/forum/#!forum/anki-sync-server
+https://github.com/dsnopek/anki-sync-server/issues
 
 Be sure to let us know which operating system and version you're using
 and how you intend to use the Anki Server!
