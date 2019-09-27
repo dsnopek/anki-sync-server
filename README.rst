@@ -1,6 +1,9 @@
 Anki Server
 ===========
 
+**NOTE: Maintenance of this project has moved to a
+`new community organization <https://github.com/ankicommunity/anki-sync-server>`_.**
+
 `Anki <http://ankisrs.net>`_ is a powerful Open Source flashcard
 application, which helps you quickly and easily memorize facts over
 the long term utilizing a spaced repetition algorithm.
