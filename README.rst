@@ -1,8 +1,7 @@
 Anki Server
 ===========
 
-**NOTE: Maintenance of this project has moved to a
-`new community organization <https://github.com/ankicommunity/anki-sync-server>`_.**
+**NOTE: Maintenance of this project has moved to a** `new GitHub project <https://github.com/ankicommunity/anki-sync-server>`_.
 
 `Anki <http://ankisrs.net>`_ is a powerful Open Source flashcard
 application, which helps you quickly and easily memorize facts over
